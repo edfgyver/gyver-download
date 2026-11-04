@@ -100,10 +100,6 @@
     .socials .btn svg { width: 18px; height: 18px; }
     .qris { display: grid; justify-items: center; align-content: start; gap: 14px; text-align: center; }
     .qris figure { margin: 0; background: #fff; border-radius: 16px; padding: 14px; width: min(100%, 300px); aspect-ratio: 600 / 693; display: grid; place-items: center; }
-    .qris figure[hidden] { display: none; }
-    .qtabs { display: flex; gap: 8px; }
-    .qtabs .btn { min-height: 40px; padding: 0 18px; font-size: 14px; }
-    .qtabs .btn[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
     .qris img { width: 100%; height: 100%; object-fit: contain; }
     .qris figure.pending { background: var(--bg-3); border: 1px dashed var(--line-2); }
     .qris .pending-msg { display: grid; justify-items: center; gap: 12px; padding: 16px; }
@@ -131,7 +127,7 @@
       fig.classList.add("pending");
       fig.innerHTML = `<div class="pending-msg">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg>
-        <span class="mono badge">Dalam proses</span><span style="font-size:14px">Sementara, pakai QRIS lain atau transfer ke rekening BCA.</span></div>`;
+        <span class="mono badge">Dalam proses</span><span style="font-size:14px">Sementara, silakan transfer ke rekening di samping.</span></div>`;
     }
   </script>
 </head>
@@ -181,13 +177,8 @@
         </div>
         <div class="panel qris">
           <p class="mono eyebrow">Scan QRIS</p>
-          <div class="qtabs" role="group" aria-label="Pilih QRIS">
-            <button type="button" class="btn ghost" data-q="gopay" aria-pressed="true">GoPay</button>
-            <button type="button" class="btn ghost" data-q="bca" aria-pressed="false">BCA</button>
-          </div>
-          <!-- Each shows "Dalam proses" until its image exists: assets/qris-gopay.png, assets/qris-bca.png -->
-          <figure data-q="gopay"><img src="assets/qris-gopay.png" alt="QRIS GoPay untuk donasi ke GYVER STUDIO" width="600" height="693" onerror="qrisPending(this)"></figure>
-          <figure data-q="bca" hidden><img src="assets/qris-bca.png" alt="QRIS BCA untuk donasi ke GYVER STUDIO" width="600" height="693" onerror="qrisPending(this)"></figure>
+          <!-- Shows "Dalam proses" if assets/qris-gopay.png is missing -->
+          <figure><img src="assets/qris-gopay.png" alt="QRIS GoPay untuk donasi ke GYVER STUDIO" width="600" height="693" onerror="qrisPending(this)"></figure>
           <p class="lead" style="font-size:14px">Bisa dibayar dari semua e-wallet dan m-banking.</p>
         </div>
       </div>
@@ -270,13 +261,24 @@
     $("#files").innerHTML = PRODUCTS.map((p) => `<li class="product">
         <video src="${esc(p.video)}" poster="${esc(p.poster)}" muted loop playsinline controls preload="none" aria-label="Video singkat ${esc(p.name)}"></video>
         <div class="info">
-          <span class="mono meta">Versi ${esc(p.version)}</span>
+          <span class="mono meta">Versi ${esc(p.version)}<span data-dl="${esc(p.name)}"></span></span>
           <h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p>
           <div class="dl">${p.downloads.map((d) => button(p, d)).join("")}</div>
           ${p.pack ? `<span class="mono meta" style="letter-spacing:.06em;text-transform:none">${esc(p.pack)}</span>` : ""}
         </div>
       </li>`).join("");
     $("#count").textContent = `${PRODUCTS.length} aplikasi`;
+
+    // Download counter: GitHub counts every Release asset download (not unique people). Hidden if the API fails or rate-limits (60/hour per IP).
+    fetch("https://api.github.com/repos/edfgyver/gyver-download/releases").then((r) => r.ok ? r.json() : []).then((rels) => {
+      const counts = {};
+      rels.flatMap((r) => r.assets).forEach((a) => { counts[a.browser_download_url] = a.download_count; });
+      PRODUCTS.forEach((p) => {
+        const n = p.downloads.reduce((sum, d) => sum + (counts[d.file] || 0), 0);
+        const el = document.querySelector(`[data-dl="${CSS.escape(p.name)}"]`);
+        if (el && n) el.textContent = ` · ${n.toLocaleString("id-ID")} kali diunduh`;
+      });
+    }).catch(() => {});
 
     // Play each video only while it is on screen (muted); skip autoplay for reduced-motion users
     if (!matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
@@ -296,12 +298,6 @@
 
     let t;
     const toast = (msg) => { const el = $("#toast"); el.textContent = msg; el.classList.add("on"); clearTimeout(t); t = setTimeout(() => el.classList.remove("on"), 1800); };
-    document.addEventListener("click", (e) => {
-      const tab = e.target.closest(".qtabs [data-q]");
-      if (!tab) return;
-      document.querySelectorAll(".qtabs [data-q]").forEach((b) => b.setAttribute("aria-pressed", b === tab));
-      document.querySelectorAll(".qris figure[data-q]").forEach((f) => { f.hidden = f.dataset.q !== tab.dataset.q; });
-    });
     document.addEventListener("click", async (e) => {
       const btn = e.target.closest("[data-copy]");
       if (!btn) return;
