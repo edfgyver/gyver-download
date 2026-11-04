@@ -6,7 +6,7 @@ Landing page statis (satu file HTML) untuk membagikan file Windows / Mac + donas
 
 Semua data ada di `index.html`, bagian `EDIT DI SINI`.
 
-1. **Paket ZIP Windows**: isi `file` dan `size` tiap aplikasi di `PRODUCTS`. ZIP CueRundown 0.4.6 = 144 MB (`D:\CUERUNDOWN\release\CueRundown 0.4.6 - Paket.zip`); ZIP CueDirector 1.1.3 = 162 MB (`D:\CUEDIRECTOR\release\CueDirector 1.1.3 - Paket.zip`). File sebesar ini melebihi batas kebanyakan hosting gratis, jadi unggah ke **GitHub Releases** (maks. 2 GB per file) lalu isi `file` dengan link-nya. Path `files/...zip` sekarang hanya placeholder.
+1. **Paket ZIP Windows**: isi `file` dan `size` tiap aplikasi di `PRODUCTS`. ZIP CueRundown 0.4.6 = 144 MB (`D:\CUERUNDOWN\release\CueRundown 0.4.6 - Paket.zip`); ZIP CueDirector 1.1.3 = 162 MB (`D:\CUEDIRECTOR\release\CueDirector 1.1.3 - Paket.zip`). Keduanya sudah diunggah ke Release `v1` (https://github.com/edfgyver/gyver-download/releases/tag/v1) dan `file` berisi link-nya. Versi baru: `gh release create v2 <zip...>`, lalu ambil URL aset dari halaman Release (spasi di nama file jadi titik).
 2. **Mac nanti**: di baris `mac`, hapus `soon: true` lalu isi `file` dan `size`.
 3. **Versi baru**: ubah `version`, `file` dan `size`.
 4. **Video**: `assets/video/<nama>.mp4` + poster `.jpg` (15 detik, dipotong dari video brag 60 detik di folder project masing-masing).
