@@ -10,7 +10,7 @@ Semua data ada di `index.html`, bagian `EDIT DI SINI`.
 2. **Mac nanti**: di baris `mac`, hapus `soon: true` lalu isi `file` dan `size`.
 3. **Versi baru**: ubah `version`, `file` dan `size`.
 4. **Video**: `assets/video/<nama>.mp4` + poster `.jpg` (15 detik, dipotong dari video brag 60 detik di folder project masing-masing).
-5. **Rekening**: `BANKS` (sudah berisi BCA). **QRIS**: simpan gambar sebagai `assets/qris.png`.
+5. **Rekening**: `BANKS` (sudah berisi BCA). **QRIS**: `assets/qris-gopay.png` (sudah ada) dan `assets/qris-bca.png` (belum; tampil "Dalam proses" sampai file ada).
 6. **Kontak**: bagian `<section ... h-contact>` di HTML.
 
 ## Menjalankan lokal
@@ -19,7 +19,11 @@ Semua data ada di `index.html`, bagian `EDIT DI SINI`.
 python -m http.server 5174 --directory "D:\GYVER STUDIO\download"
 ```
 
-## Deploy gratis
+## Deploy
+
+Live di GitHub Pages: https://edfgyver.github.io/gyver-download/ (repo `edfgyver/gyver-download`, branch `main`). Update: `git add -A && git commit -m "..." && git push`; Pages terbit ulang otomatis dalam 1-2 menit.
+
+### Alternatif hosting gratis
 
 Upload isi folder `download/` apa adanya (tanpa build):
 - **Netlify Drop**: seret folder ke https://app.netlify.com/drop
