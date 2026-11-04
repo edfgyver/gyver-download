@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unduhan — GYVER STUDIO</title>
+  <meta name="description" content="Unduh file gratis dari GYVER STUDIO untuk Windows dan Mac.">
+  <meta name="theme-color" content="#0B0A08">
+  <link rel="icon" type="image/svg+xml" href="assets/gyver-mark.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Instrument+Sans:wght@400..600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* Same tokens as the GYVER STUDIO website (site/styles.css) */
+    :root {
+      --bg: #0B0A08; --bg-2: #14120F; --bg-3: #1C1915;
+      --line: rgba(243, 236, 224, .12); --line-2: rgba(243, 236, 224, .22);
+      --ink: #F3ECE0; --muted: #A39A8B; --gold: #E2B25A;
+      --gold-grad: linear-gradient(135deg, #F7DC8C 0%, #D9A845 45%, #9C6B1E 100%);
+      --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+      --f-body: "Instrument Sans", "Segoe UI", system-ui, sans-serif;
+      --f-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+      --ease-out: cubic-bezier(.22, 1, .36, 1);
+      --gut: clamp(16px, 4vw, 48px); --r: 14px;
+      color-scheme: dark;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.55 var(--f-body); -webkit-font-smoothing: antialiased;
+      background-image: radial-gradient(1200px 600px at 85% -10%, rgba(226, 178, 90, .10), transparent 60%); background-repeat: no-repeat; }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 6px; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 var(--gut); }
+    .mono { font: 500 12px/1.4 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; }
+    .eyebrow { color: var(--gold); display: flex; align-items: center; gap: 12px; margin: 0 0 14px; }
+    .eyebrow::before { content: ""; width: 24px; height: 1px; background: currentColor; }
+    em { font-style: italic; background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .06em; }
+
+    header { border-bottom: 1px solid var(--line); }
+    header .wrap { height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; font: 700 16px var(--f-display); letter-spacing: .14em; }
+    .brand b { font-weight: 400; color: var(--muted); }
+    .brand svg { width: 32px; height: 32px; }
+    .tag { color: var(--muted); }
+
+    .hero { padding-top: clamp(48px, 9vw, 104px); padding-bottom: clamp(32px, 5vw, 56px); }
+    h1 { font: 700 clamp(40px, 7vw, 80px)/1 var(--f-display); letter-spacing: -.035em; margin: 0 0 18px; }
+    .lead { color: var(--muted); font-size: clamp(16px, 1.6vw, 19px); max-width: 52ch; margin: 0; }
+
+    h2 { font: 700 clamp(26px, 3.4vw, 36px)/1.1 var(--f-display); letter-spacing: -.02em; margin: 0 0 8px; }
+    section.wrap { margin-bottom: clamp(48px, 8vw, 88px); }
+    .sec-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+    .count { color: var(--muted); }
+
+    .files { list-style: none; margin: 0; padding: 0; display: grid; gap: 20px; }
+    .product { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(20px, 3vw, 36px); align-items: center;
+      background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--r); padding: clamp(14px, 2vw, 20px); }
+    .product video { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; background: #000; }
+    .info { padding: 8px 8px 8px 0; display: grid; gap: 14px; }
+    .product h3 { font: 700 clamp(26px, 3vw, 34px)/1.05 var(--f-display); letter-spacing: -.02em; margin: 0; }
+    .product p { margin: 0; color: var(--muted); }
+    .meta { color: var(--muted); }
+    .dl { display: grid; gap: 10px; margin-top: 4px; }
+    .dl .btn { justify-content: flex-start; padding: 0 18px; }
+    .dl .btn svg { width: 20px; height: 20px; flex: none; }
+    .dl .btn .sz { margin-left: auto; font: 500 12px var(--f-mono); opacity: .75; }
+    .badge { margin-left: auto; color: var(--gold); border: 1px solid rgba(226, 178, 90, .45); border-radius: 999px; padding: 3px 9px; font: 500 10px var(--f-mono); letter-spacing: .12em; text-transform: uppercase; }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 22px;
+      border-radius: 999px; border: 0; cursor: pointer; text-decoration: none; white-space: nowrap;
+      font: 600 15px var(--f-body); color: #1A1307; background: var(--gold-grad); transition: transform .25s var(--ease-out), filter .25s; }
+    .btn:hover { transform: translateY(-1px); filter: brightness(1.06); }
+    .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line-2); min-height: 44px; }
+    .btn.ghost:hover { border-color: var(--gold); }
+    .btn[aria-disabled="true"] { background: var(--bg-3); color: var(--muted); border: 1px dashed var(--line-2); cursor: not-allowed; transform: none; filter: none; }
+    .empty { color: var(--muted); border: 1px dashed var(--line-2); border-radius: var(--r); padding: 24px; }
+
+    .support { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; }
+    .panel { background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--r); padding: clamp(20px, 3vw, 32px); }
+    .banks { display: grid; gap: 12px; margin-top: 20px; }
+    .bank { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+      background: var(--bg-3); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+    .bank .no { font: 500 clamp(18px, 2.4vw, 22px) var(--f-mono); letter-spacing: .04em; display: block; margin: 2px 0; }
+    .bank .who { color: var(--muted); font-size: 14px; }
+    .thanks { margin: 18px 0 0; font: italic 600 17px/1.4 var(--f-display); color: var(--gold); }
+    .bank .logo { display: inline-flex; background: #fff; border-radius: 8px; padding: 6px 10px; margin-bottom: 6px; }
+    .bank .logo img { display: block; height: 20px; width: auto; }
+
+    .contacts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+    .contact { display: flex; align-items: center; gap: 16px; text-decoration: none; background: var(--bg-2); border: 1px solid var(--line);
+      border-radius: var(--r); padding: 20px 24px; transition: border-color .3s var(--ease-out), transform .3s var(--ease-out); }
+    .contact:hover { border-color: var(--gold); transform: translateY(-2px); }
+    .contact svg { width: 28px; height: 28px; flex: none; color: var(--gold); }
+    .contact .val { display: block; font: 600 clamp(17px, 2vw, 20px) var(--f-display); overflow-wrap: anywhere; }
+    .contact .mono { color: var(--muted); }
+    .feedback { margin-top: 16px; display: flex; align-items: center; justify-content: space-between; gap: 16px 24px; flex-wrap: wrap;
+      border: 1px dashed var(--line-2); border-radius: var(--r); padding: 20px 24px; }
+    .feedback p { margin: 0; color: var(--muted); max-width: 56ch; }
+    .feedback strong { color: var(--ink); font-weight: 600; }
+    .socials { display: flex; gap: 10px; flex-wrap: wrap; }
+    .socials .btn svg { width: 18px; height: 18px; }
+    .qris { display: grid; justify-items: center; align-content: start; gap: 14px; text-align: center; }
+    .qris figure { margin: 0; background: #fff; border-radius: 16px; padding: 14px; width: min(100%, 300px); aspect-ratio: 600 / 693; display: grid; place-items: center; }
+    .qris figure[hidden] { display: none; }
+    .qtabs { display: flex; gap: 8px; }
+    .qtabs .btn { min-height: 40px; padding: 0 18px; font-size: 14px; }
+    .qtabs .btn[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); }
+    .qris img { width: 100%; height: 100%; object-fit: contain; }
+    .qris figure.pending { background: var(--bg-3); border: 1px dashed var(--line-2); }
+    .qris .pending-msg { display: grid; justify-items: center; gap: 12px; padding: 16px; }
+    .qris .pending-msg svg { width: 56px; height: 56px; color: var(--muted); }
+
+    footer { border-top: 1px solid var(--line); }
+    footer .wrap { min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--muted); padding-top: 16px; padding-bottom: 16px; }
+
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+      background: var(--ink); color: var(--bg); border-radius: 999px; padding: 10px 18px; font-weight: 600; font-size: 14px;
+      transition: opacity .25s, transform .35s var(--ease-out); }
+    .toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+    .rise { animation: rise .8s var(--ease-out) both; }
+    .rise:nth-child(2) { animation-delay: .08s; } .rise:nth-child(3) { animation-delay: .16s; } .rise:nth-child(4) { animation-delay: .24s; }
+    @keyframes rise { from { opacity: 0; transform: translateY(18px); } }
+
+    @media (max-width: 760px) { .support, .product { grid-template-columns: 1fr; } .info { padding: 0 4px 6px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+  </style>
+  <script>
+    // Called by the QRIS <img> onerror, so it is defined in <head> before the image can fail
+    function qrisPending(img) {
+      const fig = img.parentElement;
+      fig.classList.add("pending");
+      fig.innerHTML = `<div class="pending-msg">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg>
+        <span class="mono badge">Dalam proses</span><span style="font-size:14px">Sementara, pakai QRIS lain atau transfer ke rekening BCA.</span></div>`;
+    }
+  </script>
+</head>
+<body>
+  <!-- Same mark as the website (site/assets/brand/gyver-mark.svg) + OS icons -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="gold" x1="10" y1="6" x2="90" y2="94" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#F7DC8C"/><stop offset=".45" stop-color="#D9A845"/><stop offset="1" stop-color="#9C6B1E"/>
+      </linearGradient>
+      <symbol id="mark" viewBox="-3 -3 106 106">
+        <g fill="none" stroke="url(#gold)">
+          <path d="M74.6 18.4 L50 4.2 L10.3 27.1 V72.9 L50 95.8 L89.7 72.9 V49.2 H67" stroke-width="9"/>
+          <path d="M63.9 32.3 L50 24.3 L27.6 37.2 V62.8 L50 75.7 L63.9 67.7" stroke-width="8.4"/>
+        </g>
+        <path d="M43 40.5 L60.5 50 L43 59.5 Z" fill="url(#gold)"/>
+      </symbol>
+      <!-- Generic OS glyphs: four-pane window, laptop -->
+      <symbol id="os-windows" viewBox="0 0 48 48"><g fill="currentColor"><rect x="6" y="6" width="17" height="17" rx="2"/><rect x="25" y="6" width="17" height="17" rx="2"/><rect x="6" y="25" width="17" height="17" rx="2"/><rect x="25" y="25" width="17" height="17" rx="2"/></g></symbol>
+      <symbol id="os-mac" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><rect x="9" y="9" width="30" height="21" rx="3"/><path d="M4 36 H44 L41 40 H7 Z"/></g></symbol>
+    </defs>
+  </svg>
+
+  <header>
+    <div class="wrap">
+      <a class="brand" href="./" aria-label="GYVER STUDIO Unduhan"><svg aria-hidden="true"><use href="#mark"/></svg>GYVER<b>STUDIO</b></a>
+      <span class="mono tag">Unduhan</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap hero">
+      <p class="mono eyebrow rise">Gratis · tanpa daftar</p>
+      <h1 class="rise">Alat untuk <em>siaran live.</em></h1>
+      <p class="lead rise">Unduh CueRundown dan CueDirector untuk komputer Anda. Kalau bermanfaat, Anda bisa ikut mendukung lewat transfer atau QRIS di bawah.</p>
+      <p class="thanks rise">Semoga aplikasi ini benar-benar membantu pekerjaan rekan-rekan media, dari ruang kontrol sampai lapangan.</p>
+    </div>
+
+    <section class="wrap" aria-labelledby="h-support">
+      <div class="support">
+        <div class="panel">
+          <p class="mono eyebrow">Donasi sukarela</p>
+          <h2 id="h-support">Dukung <em>kami.</em></h2>
+          <p class="lead">Semua file tetap gratis. Donasi membantu kami terus membuat dan membagikan file baru.</p>
+          <div class="banks" id="banks"></div>
+          <p class="thanks">Terima kasih jika sudah melakukan donasi.</p>
+        </div>
+        <div class="panel qris">
+          <p class="mono eyebrow">Scan QRIS</p>
+          <div class="qtabs" role="group" aria-label="Pilih QRIS">
+            <button type="button" class="btn ghost" data-q="gopay" aria-pressed="true">GoPay</button>
+            <button type="button" class="btn ghost" data-q="bca" aria-pressed="false">BCA</button>
+          </div>
+          <!-- Each shows "Dalam proses" until its image exists: assets/qris-gopay.png, assets/qris-bca.png -->
+          <figure data-q="gopay"><img src="assets/qris-gopay.png" alt="QRIS GoPay untuk donasi ke GYVER STUDIO" width="600" height="693" onerror="qrisPending(this)"></figure>
+          <figure data-q="bca" hidden><img src="assets/qris-bca.png" alt="QRIS BCA untuk donasi ke GYVER STUDIO" width="600" height="693" onerror="qrisPending(this)"></figure>
+          <p class="lead" style="font-size:14px">Bisa dibayar dari semua e-wallet dan m-banking.</p>
+        </div>
+      </div>
+    </section>
+    <section class="wrap" aria-labelledby="h-files">
+      <div class="sec-head">
+        <h2 id="h-files">Aplikasi</h2>
+        <span class="mono count" id="count"></span>
+      </div>
+      <ul class="files" id="files"></ul>
+    </section>
+
+    <section class="wrap" aria-labelledby="h-contact">
+      <div class="sec-head"><h2 id="h-contact">Kontak</h2><span class="mono count">Ada pertanyaan? Hubungi kami</span></div>
+      <div class="contacts">
+        <a class="contact" href="https://wa.me/6287887160705" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+          <span><span class="mono">WhatsApp / HP</span><span class="val">0878-8716-0705</span></span>
+        </a>
+        <a class="contact" href="mailto:gyverudin@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          <span><span class="mono">Email</span><span class="val">gyverudin@gmail.com</span></span>
+        </a>
+      </div>
+      <div class="feedback">
+        <p><strong>Punya saran, nemu bug, atau ide fitur?</strong> Kirim feedback lewat DM. Masukan dari rekan-rekan media yang memakai aplikasi ini langsung jadi bahan update berikutnya.</p>
+        <div class="socials" id="socials"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© <span id="year"></span> GYVER STUDIO</span>
+      <a class="mono" href="https://gyverstudio.com" rel="noopener">Studio produk digital &amp; AI ↗</a>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // ===== EDIT DI SINI =====
+    // Aplikasi: "file" = path di folder files/ ATAU link penuh (GitHub Releases / Google Drive).
+    // soon: true = tombol "Segera hadir", tidak bisa diklik.
+    const PRODUCTS = [
+      { name: "CueRundown", version: "0.4.6", video: "assets/video/cuerundown.mp4", poster: "assets/video/cuerundown.jpg",
+        desc: "Rundown PDF/Excel dari produser langsung jadi timer per cue. Over/under tiap segmen terlihat, dan kru memantau cue berikutnya dari HP.",
+        pack: "ZIP berisi installer Windows, updater, dan APK Android untuk HP kru.",
+        downloads: [
+          { platform: "windows", label: "Windows 10/11", file: "files/CueRundown-0.4.6-Paket.zip", size: "144 MB" },
+          { platform: "mac", label: "macOS", soon: true },
+        ] },
+      { name: "CueDirector", version: "1.1.3", video: "assets/video/cuedirector.mp4", poster: "assets/video/cuedirector.jpg",
+        desc: "Susun shot kamera di timeline musik, jalankan live, dan tiap kameraman melihat shot miliknya di HP. Tanpa teriak di intercom.",
+        pack: "ZIP berisi installer Windows, updater, dan APK Android untuk HP kameraman.",
+        downloads: [
+          { platform: "windows", label: "Windows 10/11", file: "files/CueDirector-1.1.3-Paket.zip", size: "162 MB" },
+          { platform: "mac", label: "macOS", soon: true },
+        ] },
+    ];
+    // Rekening: boleh lebih dari satu.
+    const BANKS = [
+      { bank: "BCA", logo: "assets/bca.svg", no: "2720209716", owner: "Edfar Nugraha" },
+    ];
+    // Feedback via DM. url kosong = tombol tidak ditampilkan.
+    const SOCIALS = [
+      { name: "Instagram", url: "https://www.instagram.com/edf_nugraha/" },
+      { name: "Threads", url: "https://www.threads.com/@edf_nugraha" },
+      { name: "Facebook", url: "https://www.facebook.com/profile.php?id=100006852587170" },
+    ];
+    // ========================
+
+    const $ = (s) => document.querySelector(s);
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const icon = (p) => `<svg aria-hidden="true"><use href="#os-${esc(p)}"/></svg>`;
+    const button = (p, d) => d.soon
+      ? `<span class="btn ghost" role="link" aria-disabled="true">${icon(d.platform)}${esc(d.label)}<span class="badge">Segera hadir</span></span>`
+      : `<a class="btn" href="${esc(d.file)}" download aria-label="Unduh ${esc(p.name)} untuk ${esc(d.label)}">${icon(d.platform)}Unduh untuk ${esc(d.label)}<span class="sz">${esc(d.size || "")}</span></a>`;
+
+    $("#files").innerHTML = PRODUCTS.map((p) => `<li class="product">
+        <video src="${esc(p.video)}" poster="${esc(p.poster)}" muted loop playsinline controls preload="none" aria-label="Video singkat ${esc(p.name)}"></video>
+        <div class="info">
+          <span class="mono meta">Versi ${esc(p.version)}</span>
+          <h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p>
+          <div class="dl">${p.downloads.map((d) => button(p, d)).join("")}</div>
+          ${p.pack ? `<span class="mono meta" style="letter-spacing:.06em;text-transform:none">${esc(p.pack)}</span>` : ""}
+        </div>
+      </li>`).join("");
+    $("#count").textContent = `${PRODUCTS.length} aplikasi`;
+
+    // Play each video only while it is on screen (muted); skip autoplay for reduced-motion users
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
+      const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting ? e.target.play().catch(() => {}) : e.target.pause()), { threshold: .5 });
+      document.querySelectorAll(".product video").forEach((v) => io.observe(v));
+    }
+
+    $("#banks").innerHTML = BANKS.map((b, i) => `<div class="bank">
+        <div>${b.logo ? `<span class="logo"><img src="${esc(b.logo)}" alt="${esc(b.bank)}" width="72" height="23"></span>` : `<span class="mono" style="color:var(--gold)">${esc(b.bank)}</span>`}
+          <span class="no">${esc(b.no)}</span><span class="who">a.n. ${esc(b.owner)}</span></div>
+        <button type="button" class="btn ghost" data-copy="${i}">Salin nomor</button>
+      </div>`).join("");
+
+    const dm = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>';
+    $("#socials").innerHTML = SOCIALS.filter((s) => s.url).map((s) =>
+      `<a class="btn ghost" href="${esc(s.url)}" target="_blank" rel="noopener" aria-label="Kirim DM lewat ${esc(s.name)}">${dm}${esc(s.name)}</a>`).join("");
+
+    let t;
+    const toast = (msg) => { const el = $("#toast"); el.textContent = msg; el.classList.add("on"); clearTimeout(t); t = setTimeout(() => el.classList.remove("on"), 1800); };
+    document.addEventListener("click", (e) => {
+      const tab = e.target.closest(".qtabs [data-q]");
+      if (!tab) return;
+      document.querySelectorAll(".qtabs [data-q]").forEach((b) => b.setAttribute("aria-pressed", b === tab));
+      document.querySelectorAll(".qris figure[data-q]").forEach((f) => { f.hidden = f.dataset.q !== tab.dataset.q; });
+    });
+    document.addEventListener("click", async (e) => {
+      const btn = e.target.closest("[data-copy]");
+      if (!btn) return;
+      const no = BANKS[btn.dataset.copy].no.replace(/\s/g, "");
+      try { await navigator.clipboard.writeText(no); toast("Nomor rekening disalin"); }
+      catch { prompt("Salin nomor rekening:", no); }
+    });
+    $("#year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
