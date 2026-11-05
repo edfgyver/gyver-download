@@ -63,6 +63,19 @@
     .dl .btn { justify-content: flex-start; padding: 0 18px; }
     .dl .btn svg { width: 20px; height: 20px; flex: none; }
     .dl .btn .sz { margin-left: auto; font: 500 12px var(--f-mono); opacity: .75; }
+    .dl .btn .i { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid currentColor; font: 700 11px var(--f-mono); opacity: .7; }
+    .has-pop { position: relative; display: grid; }
+    .pop { position: absolute; left: 0; right: 0; bottom: calc(100% + 10px); z-index: 5; padding: 16px 18px; border-radius: var(--r);
+      background: var(--bg-3); border: 1px solid var(--line-2); box-shadow: 0 18px 40px rgba(0, 0, 0, .55); color: var(--ink); font-size: 14px; line-height: 1.5;
+      opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity .2s, transform .25s var(--ease-out), visibility .2s; pointer-events: none; }
+    .pop::after { content: ""; position: absolute; left: 28px; top: 100%; border: 8px solid transparent; border-top-color: var(--line-2); }
+    .pop strong { display: block; color: var(--gold); font: 600 12px var(--f-mono); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
+    .pop ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; color: var(--muted); }
+    .pop b { color: var(--ink); font-weight: 600; }
+    .has-pop:hover .pop, .has-pop:focus-within .pop { opacity: 1; visibility: visible; transform: none; }
+    @media (hover: none) { /* touch screens: no hover, so the info sits under the button */
+      .pop { position: static; opacity: 1; visibility: visible; transform: none; margin-top: 10px; box-shadow: none; }
+      .pop::after { display: none; } .dl .btn .i { display: none; } }
     .badge { margin-left: auto; color: var(--gold); border: 1px solid rgba(226, 178, 90, .45); border-radius: 999px; padding: 3px 9px; font: 500 10px var(--f-mono); letter-spacing: .12em; text-transform: uppercase; }
 
     .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 22px;
@@ -223,13 +236,21 @@
     // ===== EDIT DI SINI =====
     // Aplikasi: "file" = path di folder files/ ATAU link penuh (GitHub Releases / Google Drive).
     // soon: true = tombol "Segera hadir", tidak bisa diklik.
+    // info: { title, items: [...] } = pop-up saat kursor di atas tombol (di HP: tampil di bawah tombol). items boleh berisi <b>.
     const PRODUCTS = [
-      { name: "CueRundown", version: "0.4.6", video: "assets/video/cuerundown.mp4", poster: "assets/video/cuerundown.jpg",
+      { name: "CueRundown", version: "0.4.7", video: "assets/video/cuerundown.mp4", poster: "assets/video/cuerundown.jpg",
         desc: "Rundown PDF/Excel dari produser langsung jadi timer per cue. Over/under tiap segmen terlihat, dan kru memantau cue berikutnya dari HP.",
-        pack: "ZIP berisi installer Windows, updater, dan APK Android untuk HP kru.",
+        pack: "ZIP berisi installer laptop (Windows atau Mac), panduan, dan APK Android untuk HP kru.",
         downloads: [
-          { platform: "windows", label: "Windows 10/11", file: "https://github.com/edfgyver/gyver-download/releases/download/v1/CueRundown.0.4.6.-.Paket.bersih.zip", size: "146 MB" },
-          { platform: "mac", label: "macOS", soon: true },
+          { platform: "windows", label: "Windows 10/11", file: "https://github.com/edfgyver/gyver-download/releases/download/v2/CueRundown-0.4.7-Windows.zip", size: "157 MB" },
+          { platform: "mac", label: "macOS", file: "https://github.com/edfgyver/gyver-download/releases/download/v2/CueRundown-0.4.7-Mac.zip", size: "323 MB",
+            info: { title: "Sebelum mengunduh untuk Mac", items: [
+              "macOS 12 (Monterey) atau lebih baru.",
+              "ZIP berisi 2 file: <b>arm64</b> untuk Mac M1–M4, <b>x64</b> untuk Mac Intel. Cek di menu Apple → About This Mac.",
+              "Belum bersertifikat Apple. Saat pertama dibuka: System Settings → Privacy &amp; Security → <b>Open Anyway</b>.",
+              "Versi Mac masih baru dan belum diuji langsung di Mac. Ada kendala? Kabari lewat DM.",
+              "HP kru: APK Android ikut di ZIP. iPhone cukup scan QR dengan kamera, tanpa aplikasi.",
+            ] } },
         ] },
       { name: "CueDirector", version: "1.1.4", video: "assets/video/cuedirector.mp4", poster: "assets/video/cuedirector.jpg",
         desc: "Susun shot kamera di timeline musik, jalankan live, dan tiap kameraman melihat shot miliknya di HP. Tanpa teriak di intercom.",
@@ -254,9 +275,13 @@
     const $ = (s) => document.querySelector(s);
     const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
     const icon = (p) => `<svg aria-hidden="true"><use href="#os-${esc(p)}"/></svg>`;
-    const button = (p, d) => d.soon
-      ? `<span class="btn ghost" role="link" aria-disabled="true">${icon(d.platform)}${esc(d.label)}<span class="badge">Segera hadir</span></span>`
-      : `<a class="btn" href="${esc(d.file)}" download aria-label="Unduh ${esc(p.name)} untuk ${esc(d.label)}">${icon(d.platform)}Unduh untuk ${esc(d.label)}<span class="sz">${esc(d.size || "")}</span></a>`;
+    const button = (p, d) => {
+      if (d.soon) return `<span class="btn ghost" role="link" aria-disabled="true">${icon(d.platform)}${esc(d.label)}<span class="badge">Segera hadir</span></span>`;
+      const pid = d.info ? `pop-${esc(p.name)}-${esc(d.platform)}` : "";
+      const a = `<a class="btn" href="${esc(d.file)}" download aria-label="Unduh ${esc(p.name)} untuk ${esc(d.label)}"${pid ? ` aria-describedby="${pid}"` : ""}>${icon(d.platform)}Unduh untuk ${esc(d.label)}${d.info ? `<span class="i" aria-hidden="true">i</span>` : ""}<span class="sz">${esc(d.size || "")}</span></a>`;
+      // info items are written by us in PRODUCTS above (trusted), so <b> is kept
+      return d.info ? `<div class="has-pop">${a}<div class="pop" role="tooltip" id="${pid}"><strong>${esc(d.info.title)}</strong><ul>${d.info.items.map((x) => `<li>${x}</li>`).join("")}</ul></div></div>` : a;
+    };
 
     $("#files").innerHTML = PRODUCTS.map((p) => `<li class="product">
         <video src="${esc(p.video)}" poster="${esc(p.poster)}" muted loop playsinline controls preload="none" aria-label="Video singkat ${esc(p.name)}"></video>
@@ -271,10 +296,10 @@
 
     // Download counter: GitHub counts every Release asset download (not unique people). Hidden if the API fails or rate-limits (60/hour per IP).
     fetch("https://api.github.com/repos/edfgyver/gyver-download/releases").then((r) => r.ok ? r.json() : []).then((rels) => {
-      const counts = {};
-      rels.flatMap((r) => r.assets).forEach((a) => { counts[a.browser_download_url] = a.download_count; });
+      // every asset whose name starts with the app name counts, old versions included, so a new release keeps the total
+      const assets = rels.flatMap((r) => r.assets);
       PRODUCTS.forEach((p) => {
-        const n = p.downloads.reduce((sum, d) => sum + (counts[d.file] || 0), 0);
+        const n = assets.filter((a) => a.name.startsWith(p.name)).reduce((sum, a) => sum + a.download_count, 0);
         const el = document.querySelector(`[data-dl="${CSS.escape(p.name)}"]`);
         if (el && n) el.textContent = ` · ${n.toLocaleString("id-ID")} kali diunduh`;
       });
