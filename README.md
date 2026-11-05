@@ -7,7 +7,7 @@ Landing page statis (satu file HTML) untuk membagikan file Windows / Mac + donas
 Semua data ada di `index.html`, bagian `EDIT DI SINI`.
 
 1. **Paket ZIP Windows**: isi `file` dan `size` tiap aplikasi di `PRODUCTS`. ZIP CueRundown 0.4.6 = 144 MB (`D:\CUERUNDOWN\release\CueRundown 0.4.6 - Paket.zip`); ZIP CueDirector 1.1.3 = 162 MB (`D:\CUEDIRECTOR\release\CueDirector 1.1.3 - Paket.zip`). Keduanya sudah diunggah ke Release `v1` (https://github.com/edfgyver/gyver-download/releases/tag/v1) dan `file` berisi link-nya. Versi baru: `gh release create v2 <zip...>`, lalu ambil URL aset dari halaman Release (spasi di nama file jadi titik).
-2. **Mac nanti**: di baris `mac`, hapus `soon: true` lalu isi `file` dan `size`.
+2. **Mac**: CueRundown 0.4.7 sudah aktif (Release `v2`: `CueRundown-0.4.7-Windows.zip`, `CueRundown-0.4.7-Mac.zip`; .dmg dibuat GitHub Actions di repo private `edfgyver/cuerundown`). CueDirector masih `soon: true`; nanti hapus itu lalu isi `file`, `size`, dan `info` (pop-up saat hover, di HP tampil di bawah tombol). Penghitung unduhan menjumlah semua aset Release yang namanya diawali nama aplikasi, jadi versi lama tetap terhitung.
 3. **Versi baru**: ubah `version`, `file` dan `size`.
 4. **Video**: `assets/video/<nama>.mp4` + poster `.jpg` (15 detik, dipotong dari video brag 60 detik di folder project masing-masing).
 5. **Rekening**: `BANKS` (sudah berisi BCA). **QRIS**: `assets/qris-gopay.png` (sudah ada) dan `assets/qris-bca.png` (belum; tampil "Dalam proses" sampai file ada).
