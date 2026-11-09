@@ -61,6 +61,9 @@
     .meta { color: var(--muted); }
     .dl { display: grid; gap: 10px; margin-top: 4px; }
     .dl .btn { justify-content: flex-start; padding: 0 18px; }
+    .dl .btn { height: auto; padding-top: 10px; padding-bottom: 10px; }
+    .dl .btn .t { min-width: 0; white-space: normal; line-height: 1.25; }
+    .dl .btn .sz { white-space: nowrap; }
     .dl .btn svg { width: 20px; height: 20px; flex: none; }
     .dl .btn .sz { margin-left: auto; font: 500 12px var(--f-mono); opacity: .75; }
     .dl .btn .i { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid currentColor; font: 700 11px var(--f-mono); opacity: .7; }
@@ -242,21 +245,21 @@
         desc: "Rundown PDF/Excel dari produser langsung jadi timer per cue. Over/under tiap segmen terlihat, dan kru memantau cue berikutnya dari HP.",
         pack: "ZIP Windows berisi installer, panduan, dan APK Android untuk HP kru. Mac: pilih arm64 atau x64 sesuai chip.",
         downloads: [
-          { platform: "windows", label: "Windows 10/11 (ZIP lengkap)", file: "https://github.com/edfgyver/gyver-download/releases/download/v3/CueRundown-0.4.11-Windows.zip", size: "144 MB",
+          { platform: "windows", label: "Windows 10/11 (lengkap)", file: "https://github.com/edfgyver/gyver-download/releases/download/v3/CueRundown-0.4.11-Windows.zip", size: "144 MB",
             info: { title: "Pasang baru di Windows", items: [
               "Untuk laptop yang <b>belum</b> terpasang CueRundown. Sudah punya? Pakai tombol Update di bawah.",
               "ZIP berisi installer, APK Android untuk HP kru, dan manual. Ekstrak dulu, lalu jalankan <b>CueRundown Setup 0.4.11.exe</b>.",
               "Jika muncul &quot;Windows protected your PC&quot;: klik <b>More info</b> lalu <b>Run anyway</b> (installer belum bersertifikat).",
               "Saat Phone monitor pertama dibuka, izinkan Windows Firewall untuk jaringan <b>Private</b>.",
             ] } },
-          { platform: "windows", label: "Windows (Update saja)", file: "https://github.com/edfgyver/gyver-download/releases/download/v3/CueRundown-Update-0.4.11.exe", size: "1,3 MB",
+          { platform: "windows", label: "Windows (update)", file: "https://github.com/edfgyver/gyver-download/releases/download/v3/CueRundown-Update-0.4.11.exe", size: "1,3 MB",
             info: { title: "Update CueRundown", items: [
               "Hanya untuk laptop yang <b>sudah</b> terpasang CueRundown. Belum pernah pasang? Pakai ZIP lengkap.",
               "Tutup CueRundown, jalankan file ini, lalu buka lagi. Rundown lama tetap aman di Documents\\CueRundown.",
               "Jika muncul &quot;Windows protected your PC&quot;: klik <b>More info</b> lalu <b>Run anyway</b>.",
               "Rundown yang diimpor sebelum 0.4.10 sebaiknya diimpor ulang agar nomor dan break terbaca dengan aturan baru.",
             ] } },
-          { platform: "mac", label: "Mac Apple Silicon (arm64)", file: "https://github.com/edfgyver/gyver-download/releases/download/v3/CueRundown-0.4.11-mac-arm64.dmg", size: "144 MB",
+          { platform: "mac", label: "Mac M1–M4 (arm64)", file: "https://github.com/edfgyver/gyver-download/releases/download/v3/CueRundown-0.4.11-mac-arm64.dmg", size: "144 MB",
             info: { title: "Untuk Mac chip M1, M2, M3, M4", items: [
               "Cek Mac Anda: menu Apple → About This Mac. Tertulis <b>Chip Apple M...</b> berarti pakai file ini. Tertulis Intel? Pakai tombol x64.",
               "macOS 12 (Monterey) atau lebih baru. Buka .dmg, seret CueRundown ke Applications.",
@@ -299,7 +302,7 @@
     const button = (p, d, n) => {
       if (d.soon) return `<span class="btn ghost" role="link" aria-disabled="true">${icon(d.platform)}${esc(d.label)}<span class="badge">Segera hadir</span></span>`;
       const pid = d.info ? `pop-${esc(p.name)}-${n}` : "";
-      const a = `<a class="btn" href="${esc(d.file)}" download aria-label="Unduh ${esc(p.name)} untuk ${esc(d.label)}"${pid ? ` aria-describedby="${pid}"` : ""}>${icon(d.platform)}Unduh untuk ${esc(d.label)}${d.info ? `<span class="i" aria-hidden="true">i</span>` : ""}<span class="sz">${esc(d.size || "")}</span></a>`;
+      const a = `<a class="btn" href="${esc(d.file)}" download aria-label="Unduh ${esc(p.name)} untuk ${esc(d.label)}"${pid ? ` aria-describedby="${pid}"` : ""}>${icon(d.platform)}<span class="t">Unduh ${esc(d.label)}</span>${d.info ? `<span class="i" aria-hidden="true">i</span>` : ""}<span class="sz">${esc(d.size || "")}</span></a>`;
       // info items are written by us in PRODUCTS above (trusted), so <b> is kept
       return d.info ? `<div class="has-pop">${a}<div class="pop" role="tooltip" id="${pid}"><strong>${esc(d.info.title)}</strong><ul>${d.info.items.map((x) => `<li>${x}</li>`).join("")}</ul></div></div>` : a;
     };
