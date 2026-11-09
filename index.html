@@ -238,18 +238,39 @@
     // soon: true = tombol "Segera hadir", tidak bisa diklik.
     // info: { title, items: [...] } = pop-up saat kursor di atas tombol (di HP: tampil di bawah tombol). items boleh berisi <b>.
     const PRODUCTS = [
-      { name: "CueRundown", version: "0.4.7", video: "assets/video/cuerundown.mp4", poster: "assets/video/cuerundown.jpg",
+      { name: "CueRundown", version: "0.4.11", video: "assets/video/cuerundown.mp4", poster: "assets/video/cuerundown.jpg",
         desc: "Rundown PDF/Excel dari produser langsung jadi timer per cue. Over/under tiap segmen terlihat, dan kru memantau cue berikutnya dari HP.",
-        pack: "ZIP berisi installer laptop (Windows atau Mac), panduan, dan APK Android untuk HP kru.",
+        pack: "ZIP Windows berisi installer, panduan, dan APK Android untuk HP kru. Mac: pilih arm64 atau x64 sesuai chip.",
         downloads: [
-          { platform: "windows", label: "Windows 10/11", file: "https://github.com/edfgyver/gyver-download/releases/download/v2/CueRundown-0.4.7-Windows.zip", size: "157 MB" },
-          { platform: "mac", label: "macOS", file: "https://github.com/edfgyver/gyver-download/releases/download/v2/CueRundown-0.4.7-Mac.zip", size: "323 MB",
-            info: { title: "Sebelum mengunduh untuk Mac", items: [
-              "macOS 12 (Monterey) atau lebih baru.",
-              "ZIP berisi 2 file: <b>arm64</b> untuk Mac M1–M4, <b>x64</b> untuk Mac Intel. Cek di menu Apple → About This Mac.",
-              "Belum bersertifikat Apple. Saat pertama dibuka: System Settings → Privacy &amp; Security → <b>Open Anyway</b>.",
-              "Versi Mac masih baru dan belum diuji langsung di Mac. Ada kendala? Kabari lewat DM.",
-              "HP kru: APK Android ikut di ZIP. iPhone cukup scan QR dengan kamera, tanpa aplikasi.",
+          { platform: "windows", label: "Windows 10/11 (ZIP lengkap)", file: "https://github.com/edfgyver/gyver-download/releases/download/v3/CueRundown-0.4.11-Windows.zip", size: "144 MB",
+            info: { title: "Pasang baru di Windows", items: [
+              "Untuk laptop yang <b>belum</b> terpasang CueRundown. Sudah punya? Pakai tombol Update di bawah.",
+              "ZIP berisi installer, APK Android untuk HP kru, dan manual. Ekstrak dulu, lalu jalankan <b>CueRundown Setup 0.4.11.exe</b>.",
+              "Jika muncul &quot;Windows protected your PC&quot;: klik <b>More info</b> lalu <b>Run anyway</b> (installer belum bersertifikat).",
+              "Saat Phone monitor pertama dibuka, izinkan Windows Firewall untuk jaringan <b>Private</b>.",
+            ] } },
+          { platform: "windows", label: "Windows (Update saja)", file: "https://github.com/edfgyver/gyver-download/releases/download/v3/CueRundown-Update-0.4.11.exe", size: "1,3 MB",
+            info: { title: "Update CueRundown", items: [
+              "Hanya untuk laptop yang <b>sudah</b> terpasang CueRundown. Belum pernah pasang? Pakai ZIP lengkap.",
+              "Tutup CueRundown, jalankan file ini, lalu buka lagi. Rundown lama tetap aman di Documents\\CueRundown.",
+              "Jika muncul &quot;Windows protected your PC&quot;: klik <b>More info</b> lalu <b>Run anyway</b>.",
+              "Rundown yang diimpor sebelum 0.4.10 sebaiknya diimpor ulang agar nomor dan break terbaca dengan aturan baru.",
+            ] } },
+          { platform: "mac", label: "Mac Apple Silicon (arm64)", file: "https://github.com/edfgyver/gyver-download/releases/download/v3/CueRundown-0.4.11-mac-arm64.dmg", size: "144 MB",
+            info: { title: "Untuk Mac chip M1, M2, M3, M4", items: [
+              "Cek Mac Anda: menu Apple → About This Mac. Tertulis <b>Chip Apple M...</b> berarti pakai file ini. Tertulis Intel? Pakai tombol x64.",
+              "macOS 12 (Monterey) atau lebih baru. Buka .dmg, seret CueRundown ke Applications.",
+              "Belum bersertifikat Apple. Saat pertama dibuka: System Settings → Privacy &amp; Security → <b>Open Anyway</b>. Cukup sekali.",
+              "Versi Mac belum diuji langsung di Mac. Ada kendala? Kabari lewat DM.",
+              "APK Android tidak ada di file ini. Ambil dari ZIP Windows. iPhone cukup scan QR dengan kamera.",
+            ] } },
+          { platform: "mac", label: "Mac Intel (x64)", file: "https://github.com/edfgyver/gyver-download/releases/download/v3/CueRundown-0.4.11-mac-x64.dmg", size: "152 MB",
+            info: { title: "Untuk Mac prosesor Intel", items: [
+              "Cek Mac Anda: menu Apple → About This Mac. Tertulis <b>Processor Intel</b> berarti pakai file ini. Tertulis Chip Apple M? Pakai tombol arm64.",
+              "macOS 12 (Monterey) atau lebih baru. Buka .dmg, seret CueRundown ke Applications.",
+              "Belum bersertifikat Apple. Saat pertama dibuka: System Settings → Privacy &amp; Security → <b>Open Anyway</b>. Cukup sekali.",
+              "Versi Mac belum diuji langsung di Mac. Ada kendala? Kabari lewat DM.",
+              "APK Android tidak ada di file ini. Ambil dari ZIP Windows. iPhone cukup scan QR dengan kamera.",
             ] } },
         ] },
       { name: "CueDirector", version: "1.1.4", video: "assets/video/cuedirector.mp4", poster: "assets/video/cuedirector.jpg",
@@ -275,9 +296,9 @@
     const $ = (s) => document.querySelector(s);
     const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
     const icon = (p) => `<svg aria-hidden="true"><use href="#os-${esc(p)}"/></svg>`;
-    const button = (p, d) => {
+    const button = (p, d, n) => {
       if (d.soon) return `<span class="btn ghost" role="link" aria-disabled="true">${icon(d.platform)}${esc(d.label)}<span class="badge">Segera hadir</span></span>`;
-      const pid = d.info ? `pop-${esc(p.name)}-${esc(d.platform)}` : "";
+      const pid = d.info ? `pop-${esc(p.name)}-${n}` : "";
       const a = `<a class="btn" href="${esc(d.file)}" download aria-label="Unduh ${esc(p.name)} untuk ${esc(d.label)}"${pid ? ` aria-describedby="${pid}"` : ""}>${icon(d.platform)}Unduh untuk ${esc(d.label)}${d.info ? `<span class="i" aria-hidden="true">i</span>` : ""}<span class="sz">${esc(d.size || "")}</span></a>`;
       // info items are written by us in PRODUCTS above (trusted), so <b> is kept
       return d.info ? `<div class="has-pop">${a}<div class="pop" role="tooltip" id="${pid}"><strong>${esc(d.info.title)}</strong><ul>${d.info.items.map((x) => `<li>${x}</li>`).join("")}</ul></div></div>` : a;
@@ -288,7 +309,7 @@
         <div class="info">
           <span class="mono meta">Versi ${esc(p.version)}<span data-dl="${esc(p.name)}"></span></span>
           <h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p>
-          <div class="dl">${p.downloads.map((d) => button(p, d)).join("")}</div>
+          <div class="dl">${p.downloads.map((d, n) => button(p, d, n)).join("")}</div>
           ${p.pack ? `<span class="mono meta" style="letter-spacing:.06em;text-transform:none">${esc(p.pack)}</span>` : ""}
         </div>
       </li>`).join("");
